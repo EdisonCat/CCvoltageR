@@ -3,20 +3,32 @@
 #include "LiquidCrystal.h"
 #include "Arduino.h"
 
+/*
+Set up your pins here
+*/
+const int pinButton1 = 1;
+const int pinButton2 = 1;
+const int pinFlag = 1;
+const int pinCurrentV = 1;
+const int pinSwitch1 = 1;
+const int pinSwitch2 = 1;
+const int pinLCD = 1;
 
 
-class voltage {
+
+class Voltage {
 public:
 
-	//bool flag=false; not used
+	bool flag=false;
+	int flagValue;
 	int time=200;//time for method delay()
 	float voltage_set;
 	float voltage_current;
 	LiquidCrystal lcd1;
 	
-	voltage(){
+	Voltage(){
 		voltage_set=4.5;
-		voltage_current=map(analogRead(pin),0,255,0,5);
+		voltage_current=map(analogRead(pinCurrentV),0,255,0,5);
 		//lcd lcd1;
 		printVoltage();
 	}
@@ -38,22 +50,29 @@ public:
 	/*
 	Switch mosfet on or off
 	*/
-	void switchOn(int time){
-		digitalWrite(pin,HIGH);
-		digitalWrite(pin,LOW);
-		delay(time);
-	}
-
-	/*
-	This method is not used
-
-	void changeFlag(){
-		switch(flag){
-			case(true):flag=false;break;
-			default:flag=true;
+	void switchOn(bool flag, int time){
+		if (flag) {
+			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
 		}
+		else
+			;
 	}
-	*/
+
+
+
+	bool changeFlag(){
+		flag = false;
+		flagValue = analogRead(pinFlag);
+		if (flagValue > 100) {
+			flag = true;
+		}
+		else
+			flag = false;
+		return 0;
+	}
+
 
 	/*
 	Print the message according to your need
@@ -68,8 +87,12 @@ public:
 	voltage_set varies according to the status of the buttons
 	*/
 	float checkStatus(float voltage_set){
-		if (analogRead(pin)) {
+		if (analogRead(pinButton1)) {
 			voltage_set += 0.1;
+			return voltage_set;
+		}
+		else if (analogRead(pinButton2)) {
+			voltage_set -= 0.1;
 			return voltage_set;
 		}
 		else

@@ -12,7 +12,6 @@ void delay(int);
 float map(int,int,int,int,int);
 void setup();
 void loop();
-const int pin = 1;
 const bool INPUT = false;
 const bool OUTPUT = true;
 const bool HIGH = true;

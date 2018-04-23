@@ -1,5 +1,5 @@
 #include"chopping-controlled_voltage_regulator.h"
-voltage voltageNow;
+Voltage voltageNow;
 
 /*
 method main() is used to successfully debug on Visual Studio
@@ -11,16 +11,16 @@ void main() {
 	system("pause");
 }
 void setup(){
-	pinMode(pin,INPUT);//voltage input pin
-	pinMode(pin,INPUT);//button input pin
-	pinMode(pin,INPUT);//start flag input pin
-	pinMode(pin,OUTPUT);//lcd output
-	pinMode(pin,OUTPUT);//switch1 output
-	pinMode(pin,OUTPUT);//switch2 output
+	pinMode(pinCurrentV,INPUT);//voltage input pin
+	pinMode(pinButton1,INPUT);//button input pin
+	pinMode(pinButton2,INPUT);//start flag input pin
+	pinMode(pinLCD,OUTPUT);//lcd output
+	pinMode(pinSwitch1,OUTPUT);//switch1 output
+	pinMode(pinSwitch2,OUTPUT);//switch2 output
 }
 void loop(){
 	voltageNow.checkStatus(voltageNow.voltage_set);//Check the status of the buttons and return current voltage_set
-	voltageNow.switchOn(voltageNow.checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
+	voltageNow.switchOn(voltageNow.changeFlag(),voltageNow.checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
 	//Screen cleaner maybe in need here
 	voltageNow.printVoltage();//Print the message here
 }
