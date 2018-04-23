@@ -10,5 +10,8 @@ public:
 	void print(string message) {
 		
 	}
+	LiquidCrystal(const int pinLCDRS, const int pinLCDE, const int pinLCDD4, const int pinLCDD5, const int pinLCDD6, const int pinLCDD7) {
+	
+	}
 };
 #endif

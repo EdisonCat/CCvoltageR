@@ -2,6 +2,8 @@
 #define CHOPPING_CONTROLLED_VOLTAGE_REGULATOR_H
 #include "LiquidCrystal.h"
 #include "Arduino.h"
+#include "chopping-controlled_voltage_regulator.h"
+#include <sstream>
 
 /*
 Set up your pins here
@@ -12,7 +14,16 @@ const int pinFlag = 1;
 const int pinCurrentV = 1;
 const int pinSwitch1 = 1;
 const int pinSwitch2 = 1;
-const int pinLCD = 1;
+const int pinLCDVCC = 1;
+const int pinLCDGND = 1;
+const int pinLCDE = 1;
+const int pinLCDRS = 1;
+const int pinLCDRW = 1;
+const int pinLCDD7 = 1;
+const int pinLCDD6 = 1;
+const int pinLCDD5 = 1;
+const int pinLCDD4 = 1;
+
 
 
 
@@ -24,13 +35,12 @@ public:
 	int time=200;//time for method delay()
 	float voltage_set;
 	float voltage_current;
-	LiquidCrystal lcd1;
+	LiquidCrystal *lcd=new LiquidCrystal(pinLCDRS,pinLCDE,pinLCDD4,pinLCDD5,pinLCDD6,pinLCDD7);
 	
 	Voltage(){
 		voltage_set=4.5;
 		voltage_current=map(analogRead(pinCurrentV),0,255,0,5);
-		//lcd lcd1;
-		printVoltage();
+		printVoltage(voltage_current,voltage_set);
 	}
 
 	/*
@@ -77,9 +87,15 @@ public:
 	/*
 	Print the message according to your need
 	*/
-	void printVoltage(){
-		//lcd1.print("current voltage:" + voltage_current);
-		//lcd1.print("target voltage:"+voltage_set);
+	void printVoltage(float voltage_current, float voltage_set){
+		ostringstream ossCurrent;
+		ostringstream ossSet;
+		ossCurrent << voltage_current;
+		ossSet << voltage_set;
+		string tempCurrent(ossCurrent.str());
+		string tempSet(ossSet.str());
+		lcd->print("Current Voltage:"+tempCurrent+" ");
+		lcd->print("Voltage Set:" +tempSet);
 	}
 
 	/*
@@ -87,17 +103,18 @@ public:
 	voltage_set varies according to the status of the buttons
 	*/
 	float checkStatus(float voltage_set){
-		if (analogRead(pinButton1)) {
+		if (digitalRead(pinButton1)) {
 			voltage_set += 0.1;
+			delay(200);//In case errors appear
 			return voltage_set;
 		}
-		else if (analogRead(pinButton2)) {
+		else if (digitalRead(pinButton2)) {
 			voltage_set -= 0.1;
+			delay(200);
 			return voltage_set;
 		}
 		else
 			return voltage_set;
 	}
 };
-
 #endif
