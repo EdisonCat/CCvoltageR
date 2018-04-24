@@ -62,7 +62,78 @@ public:
 	*/
 	void switchOn(bool flag, int time){
 		if (flag) {
+			/*
+			First half wave
+			*/
 			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+
+			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+
+			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+
+			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+
+			digitalWrite(pinSwitch1, HIGH);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			/*
+			Second half wave
+			*/
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, HIGH);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, HIGH);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, HIGH);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+			
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, HIGH);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, LOW);
+			delay(time);
+		
+			digitalWrite(pinSwitch1, LOW);
+			digitalWrite(pinSwitch2, HIGH);
+			delay(time);
+			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
 			delay(time);
 		}
