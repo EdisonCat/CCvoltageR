@@ -67,75 +67,75 @@ public:
 			*/
 			digitalWrite(pinSwitch1, HIGH);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 
 			digitalWrite(pinSwitch1, HIGH);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 
 			digitalWrite(pinSwitch1, HIGH);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 
 			digitalWrite(pinSwitch1, HIGH);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 
 			digitalWrite(pinSwitch1, HIGH);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			/*
 			Second half wave
 			*/
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, HIGH);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, HIGH);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, HIGH);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 			
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, HIGH);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 		
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, HIGH);
-			delay(time);
+			delayMicrosecond(time);
 			digitalWrite(pinSwitch1, LOW);
 			digitalWrite(pinSwitch2, LOW);
-			delay(time);
+			delayMicrosecond(time);
 		}
 		else
 			;

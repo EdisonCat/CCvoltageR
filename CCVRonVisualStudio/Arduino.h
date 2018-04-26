@@ -9,6 +9,7 @@ int digitalRead(int);
 int analogRead(int);
 void analogWrite(int, bool);
 void delay(int);
+void delayMicrosecond(int);
 float map(int,int,int,int,int);
 void setup();
 void loop();

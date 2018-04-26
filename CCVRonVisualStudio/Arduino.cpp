@@ -20,7 +20,9 @@ void analogWrite(int pin, bool status) {
 void delay(int time) {
 
 }
+void delayMicrosecond(int time) {
 
+}
 float map(int value,int min1,int max1, int min2, int max2) {
 	return value / 255 * 5;
 }
