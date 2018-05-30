@@ -1,4 +1,4 @@
-#include"chopping-controlled_voltage_regulator.h"
+#include "chopping-controlled_voltage_regulator.h"
 Voltage voltageNow;
 
 /*
@@ -25,6 +25,6 @@ void setup(){
 void loop(){
 	voltageNow.checkStatus(voltageNow.voltage_set);//Check the status of the buttons and return current voltage_set
 	voltageNow.switchOn(voltageNow.changeFlag(),voltageNow.checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
-	//Screen cleaner maybe in need here
+	//Screen cleaner may be in need here
 	voltageNow.printVoltage(voltageNow.voltage_current,voltageNow.voltage_set);//Print the message here
 }

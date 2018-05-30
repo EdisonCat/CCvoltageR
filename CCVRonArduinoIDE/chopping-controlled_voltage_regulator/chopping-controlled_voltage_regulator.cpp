@@ -1,21 +1,20 @@
 #include "chopping-controlled_voltage_regulator.h"
-voltage voltageNow;
-void setup(){
-	pinMode(,INPUT);//voltage input pin
-	pinMode(,INPUT);//button input pin
-	pinMode(,INPUT);//start flag input pin
-	pinMode(,OUTPUT);//lcd output
-	pinMode(,OUTPUT);//switch1 output
-	pinMode(,OUTPUT);//switch2 output
+Voltage voltageNow;
+
+void setup() {
+	pinMode(pinCurrentV, INPUT);//voltage input pin
+	pinMode(pinButton1, INPUT);//button input pin
+	pinMode(pinButton2, INPUT);//start flag input pin
+	pinMode(pinLCDD4, OUTPUT);//lcd output
+	pinMode(pinLCDD5, OUTPUT);//lcd output
+	pinMode(pinLCDD6, OUTPUT);//lcd output
+	pinMode(pinLCDD7, OUTPUT);//lcd output
+	pinMode(pinSwitch1, OUTPUT);//switch1 output
+	pinMode(pinSwitch2, OUTPUT);//switch2 output
 }
-void loop(){
-
-	voltageNow.checkVoltage();
-
-	
-
-
-	
-
-
+void loop() {
+	voltageNow.checkStatus(voltageNow.voltage_set);//Check the status of the buttons and return current voltage_set
+	voltageNow.switchOn(voltageNow.changeFlag(), voltageNow.checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
+																			//Screen cleaner may be in need here
+	voltageNow.printVoltage(voltageNow.voltage_current, voltageNow.voltage_set);//Print the message here
 }

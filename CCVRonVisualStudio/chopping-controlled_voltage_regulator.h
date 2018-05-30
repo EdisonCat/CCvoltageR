@@ -2,7 +2,7 @@
 #define CHOPPING_CONTROLLED_VOLTAGE_REGULATOR_H
 #include "LiquidCrystal.h"
 #include "Arduino.h"
-#include "chopping-controlled_voltage_regulator.h"
+
 #include <sstream>
 
 /*
@@ -32,7 +32,7 @@ public:
 
 	bool flag=false;
 	int flagValue;
-	int time=200;//time for method delay()
+	int time=1000;//time for method delay() or delayMicrosecond()
 	float voltage_set;
 	float voltage_current;
 	LiquidCrystal *lcd=new LiquidCrystal(pinLCDRS,pinLCDE,pinLCDD4,pinLCDD5,pinLCDD6,pinLCDD7);
