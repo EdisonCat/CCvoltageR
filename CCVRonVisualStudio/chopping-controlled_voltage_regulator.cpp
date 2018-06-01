@@ -13,18 +13,23 @@ void main() {
 }
 void setup(){
 	pinMode(pinCurrentV,INPUT);//voltage input pin
-	pinMode(pinButton1,INPUT);//button input pin
-	pinMode(pinButton2,INPUT);//start flag input pin
+	//pinMode(pinButton1,INPUT);//button input pin
+	//pinMode(pinButton2,INPUT);//start flag input pin
 	pinMode(pinLCDD4,OUTPUT);//lcd output
 	pinMode(pinLCDD5, OUTPUT);//lcd output
 	pinMode(pinLCDD6, OUTPUT);//lcd output
 	pinMode(pinLCDD7, OUTPUT);//lcd output
 	pinMode(pinSwitch1,OUTPUT);//switch1 output
 	pinMode(pinSwitch2,OUTPUT);//switch2 output
+
+	voltageNow.lcd->begin(16, 2);
+	voltageNow.lcd->setCursor(0, 0);
+	voltageNow.lcd->print("Set: ");
+	voltageNow.lcd->print(voltageNow.voltage_set);
+	//voltageNow.lcd->setCursor(0, 1);
+	//voltageNow.lcd->print("Current: ");
+	//voltageNow.lcd->print(voltageNow.voltage_current);
 }
 void loop(){
-	voltageNow.checkStatus(voltageNow.voltage_set);//Check the status of the buttons and return current voltage_set
-	voltageNow.switchOn(voltageNow.changeFlag(),voltageNow.checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
-	//Screen cleaner may be in need here
-	voltageNow.printVoltage(voltageNow.voltage_current,voltageNow.voltage_set);//Print the message here
+	voltageNow.startRegulating();
 }

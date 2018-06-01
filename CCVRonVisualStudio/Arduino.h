@@ -9,7 +9,7 @@ int digitalRead(int);
 int analogRead(int);
 void analogWrite(int, bool);
 void delay(int);
-void delayMicrosecond(int);
+void delayMicroseconds(int);
 float map(int,int,int,int,int);
 void setup();
 void loop();
@@ -17,4 +17,5 @@ const bool INPUT = false;
 const bool OUTPUT = true;
 const bool HIGH = true;
 const bool LOW = false;
+const int A5 = 500;
 #endif

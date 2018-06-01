@@ -10,6 +10,15 @@ public:
 	void print(string message) {
 		
 	}
+	void print(float message) {
+
+	}
+	void begin(int length, int width) {
+
+	}
+	void setCursor(int length, int width) {
+
+	}
 	LiquidCrystal(const int pinLCDRS, const int pinLCDE, const int pinLCDD4, const int pinLCDD5, const int pinLCDD6, const int pinLCDD7) {
 	
 	}
