@@ -1,6 +1,5 @@
 #include "chopping-controlled_voltage_regulator.h"
-Voltage voltageNow;
-
+Voltage *voltageNow=new Voltage;
 /*
 method main() is used to successfully debug on Visual Studio
 */
@@ -21,15 +20,16 @@ void setup(){
 	pinMode(pinLCDD7, OUTPUT);//lcd output
 	pinMode(pinSwitch1,OUTPUT);//switch1 output
 	pinMode(pinSwitch2,OUTPUT);//switch2 output
+	
+	voltageNow->lcd->begin(16, 2);
+	voltageNow->lcd->setCursor(0, 0);
+	voltageNow->lcd->print("Set: ");
+	voltageNow->lcd->print(voltageNow->voltage_set);
 
-	voltageNow.lcd->begin(16, 2);
-	voltageNow.lcd->setCursor(0, 0);
-	voltageNow.lcd->print("Set: ");
-	voltageNow.lcd->print(voltageNow.voltage_set);
-	//voltageNow.lcd->setCursor(0, 1);
-	//voltageNow.lcd->print("Current: ");
-	//voltageNow.lcd->print(voltageNow.voltage_current);
+	voltageNow->lcd->setCursor(0, 1);
+	voltageNow->lcd->print("Current: ");
+	voltageNow->lcd->print(voltageNow->voltage_current);
 }
 void loop(){
-	voltageNow.startRegulating();
+	voltageNow->startRegulating();
 }

@@ -32,6 +32,7 @@ class Voltage {
 public:
 
 	bool flag = false;
+
 	int flagValue;
 	int openTime = 1000;//time for method delay() or delayMicroseconds()
 	float voltage_set;
@@ -41,21 +42,27 @@ public:
 	LiquidCrystal *lcd = new LiquidCrystal(pinLCDRS, pinLCDE, pinLCDD4, pinLCDD5, pinLCDD6, pinLCDD7);
 
 	Voltage() {
-		voltage_set = 4.5;
+		voltage_set = 15;
 		voltage_current = remap(analogRead(pinCurrentV), 1023, 5);
 	}
 
 	/*
 	Check if voltage_current equals to voltage_set
 	*/
-	int checkVoltage() {
+	inline int checkVoltage() {
+		if (Serial.available()) {
+			this->voltage_set = Serial.readString().toFloat();
+			Serial.println(this->voltage_set);
+		}
+		this->voltage_current = remap(analogRead(pinCurrentV), 1023, 220);
+
 		if (this->voltage_current > this->voltage_set) {
 			this->openTime--;
 			return this->openTime;
 		}
 		else if (this->voltage_current < this->voltage_set) {
 			this->openTime++;
-			return this->openTime++;
+			return this->openTime;
 		}
 		else
 			return this->openTime;
@@ -64,105 +71,32 @@ public:
 	/*
 	Switch mosfet on or off
 	*/
-	void switchOn(bool flag, int openTime) {
-		if (flag) {
-			/*
-			First half wave
-			*/
+	inline void switchOn(int openTime) {
+		if (openTime > 2000) {
+			this->openTime = 2000;
 			digitalWrite(pinSwitch1, HIGH);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, HIGH);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, HIGH);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, HIGH);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, HIGH);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-			/*
-			Second half wave
-			*/
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, HIGH);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, HIGH);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, HIGH);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, HIGH);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
-
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, HIGH);
-			delayMicroseconds(openTime);
-			digitalWrite(pinSwitch1, LOW);
-			digitalWrite(pinSwitch2, LOW);
-			delayMicroseconds(openTime);
+			delayMicroseconds(this->openTime);
 		}
-		else
-			;
+		else if (openTime < 0) {
+			this->openTime = 0;
+			digitalWrite(pinSwitch1, LOW);
+			delayMicroseconds(2000);
+		}
+		else {
+			digitalWrite(pinSwitch1, HIGH);
+			delayMicroseconds(this->openTime);
+			digitalWrite(pinSwitch1, LOW);
+			delayMicroseconds(2000 - this->openTime);
+		}
+
 	}
 
-
-
-	bool changeFlag() {
-		flag = false;
-		flagValue = analogRead(pinFlag);
-		if (flagValue > 100) {
-			flag = true;
-		}
-		else
-			flag = false;
-		return 0;
-	}
 
 	/*
 	To check if the buttons are pressed.
 	voltage_set varies according to the status of the buttons
 	*/
-	int readButton() {
+	inline int readButton() {
 		button = analogRead(0);
 		if (button > 1000) return btnNone;
 		if (button < 50)   return btnNone;
@@ -172,13 +106,15 @@ public:
 		if (button < 850)  return btnNone;
 		return btnNone;
 	}
-	void checkAndPrint(float voltage_set, float voltage_current) {
+	inline void checkAndPrint(float voltage_set, float voltage_current) {
 
-		
 		lcd->setCursor(5, 0);
 		this->lcd_key = this->readButton();
+		if (this->lcd_key != btnNone) {
+			this->flag = false;
+		}
 
-		switch (this->lcd_key) {               
+		switch (this->lcd_key) {
 		case btnUp: {
 			this->voltage_set += 0.1;
 			if (this->voltage_set > 220) {
@@ -194,15 +130,16 @@ public:
 				lcd->print(this->voltage_set);
 			}
 			else {
-				lcd->print(this->voltage_set);  
+				lcd->print(this->voltage_set);
+				delay(100);
 			}
 			break;
 		}
 		case btnDown: {
 			this->voltage_set -= 0.1;
-			if (this->voltage_set < 0) {
+			if (this->voltage_set <0) {
 				lcd->print("limit");
-				this->voltage_set += 0.1;
+				this->voltage_set = 0;
 				delay(500);
 				lcd->setCursor(5, 0);
 				lcd->print("     ");
@@ -210,29 +147,39 @@ public:
 				lcd->print(this->voltage_set);
 			}
 			else {
-				lcd->print(this->voltage_set);  
+				lcd->print(this->voltage_set);
+				delay(100);
+			}
+			break;
+		}
+		case btnNone: {
+			if (!this->flag) {
+				Serial.println(this->voltage_set);
+				this->flag = true;
+			}
+			else {
+
 			}
 			break;
 		}
 		}
-		this->voltage_current = remap(analogRead(pinCurrentV), 1023, 5);
+		this->voltage_current = remap(analogRead(pinCurrentV), 1023, 220);
 		lcd->setCursor(9, 1);
 		lcd->print(this->voltage_current);
 
-		delay(100);
 	}
 
-	float remap(float analogData, float originalMax, float afterMax) {
-		float result = analogData * afterMax / originalMax;
+	inline float remap(float analogData, float originalMax, float afterMax) {
+		float result = (analogData * afterMax / originalMax);
 		return result;
 	}
 
-	void startRegulating() {
+	inline void startRegulating() {
 		this->checkAndPrint(this->voltage_set, this->voltage_current);//Check the status of the buttons and return current voltage_set
-		this->switchOn(this->changeFlag(), this->checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
+		this->switchOn(this->checkVoltage());//Switch the mosfet on according to the return value of method checkVoltage()
 	}
 
-	void initiateLCD() {
+	inline void initiateLCD() {
 		this->lcd->begin(16, 2);
 		this->lcd->setCursor(0, 0);
 		this->lcd->print("Set: ");
